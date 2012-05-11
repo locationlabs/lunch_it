@@ -1,10 +1,16 @@
 from django.conf.urls import patterns, include, url
 
+import settings
+
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^$', 'trains.views.index', name='index'),
+    url(r'newGroup/', 'trains.views.createNewGroup', name='newTrain'),
+    url(r'join/', 'trains.views.joinGroup', name='join'),
+    url(r'leave/', 'trains.views.leaveGroup', name='leave'),
     # Examples:
     # url(r'^$', 'lunch_it.views.home', name='home'),
     # url(r'^lunch_it/', include('lunch_it.foo.urls')),
