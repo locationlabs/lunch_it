@@ -9,7 +9,7 @@ class UserInfo(models.Model):
    display_name = models.CharField(max_length=256)
 
    def __unicode__(self):
-      return self.name
+      return self.display_name
 
 
 class Office(models.Model):

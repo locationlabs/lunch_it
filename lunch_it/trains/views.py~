@@ -1,14 +1,17 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.shortcuts import render
-from trains.models import User, Train, Restaurant
+#checks if users are logged in 
 from forms import * 
 
-# checks if users are logged in
+<<<<<<< HEAD
 def hasAuth(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
     else:
         pass
+=======
+from django.shortcuts import render
+from trains.models import User, Train, Restaurant
+>>>>>>> 4089d3707df56e39e934587cab588a98e1877b00
 
 def login(request):
     if request.method == 'GET':
@@ -32,6 +35,23 @@ def login(request):
             return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."]})
         
 def index(request):
+<<<<<<< HEAD
+    view = 'main.html'
+    return render(view, {})
+
+def createNewGroup(request):
+    view = 'createGroup.html'
+    return render(view, {})
+
+def joinGroup(request):
+    view = 'main.html'
+    return render(view, {})
+
+def leaveGroup(request):
+    view = 'main.html'
+    return render(view, {})
+=======
+
    # Stuff we need to get 
    # all today's trains  TODO filter this by today's date
    trains = Train.objects.all()
@@ -51,4 +71,4 @@ def joinGroup(request):
 def leaveGroup(request):
    view = 'main_template.html'
    return render(request, view, {})
-
+>>>>>>> 4089d3707df56e39e934587cab588a98e1877b00

@@ -1,13 +1,17 @@
 <html>
 <head> 
   <title>Lunch It!</title>
+<link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
 </head>
-</body>
+<body>
+	<div class="join1">
+		<a href="#"><img src="images/lunchit2.png" height="60"></a>
+	</div>
 <div class="row">
 	<div class="span12">
 	<div class="join1">
-		<h2>Join a Group
-
+		<h2>Where is everyone going to lunch today?
 		</h2>
 	</div>
 </div>
@@ -23,29 +27,41 @@
       </tr>
     </thead>
     <tbody>
+      {% if destination %}
       {% for row in destination %}
         <tr>
-          <td>{{row.time}}</td>
+          <td>{{row.departureTime}}</td>
 		  <td>{{row.transportation}}</td>
-          <td>{{row.place}}</td>
+          <td>{{row.destination}}</td>
           <td>
-            {% for person in row.people %}
-              <span class="label label-info">{{person}}</span>
+            {% if row.passengers %}
+            {% for person in row.passengers.all %}
+              <span class="label label-info">{{person.display_name}}</span>
             {% endfor %}
+            {% endif %}
           </td>
 		  <td>
 			{{row.notes}}
           </td>
         </tr>
-      {{% endfor %}}
+      {% endfor %}
+      {% endif %}
     </tbody>
   </table>
 </div>
-<div class="span8">
-    <a href= "/{{addTrainUrl}}" class="btn btn-small btn-primary">+ New Group </a>
-	<!--<button class="btn btn-small btn-primary">+ New Group</button>-->
 </div>
-</div>
+
+<form class="well form-inline">
+<h6>Start your own group</h6>
+<input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" data-provide="typeahead" data-items="4" data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
+
+<input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" data-provide="typeahead" data-items="8" data-source="[&quot;Cabucci's&quot;,&quot;Summer Summer Thai Eatery&quot;,&quot;Bucci's&quot;,&quot;Ruby's Cafe&quot;,&quot;E-22 Cafe&quot;,&quot;Townhouse&quot;,&quot;Emery Bay Public Market&quot;,&quot;Cafe Aquarius&quot;,&quot;Cocina Poblana&quot;,&quot;Trader Joe's&quot;,&quot;Farley's&quot;,&quot;Rudy's Can't Fail Cafe&quot;,&quot;Arizmendi Bakery &amp; Pizza&quot;,&quot;Berkeley Bowl West&quot;,&quot;Juan's Place&quot;,&quot;Wally's Cafe&quot;,&quot;K C Bar-B-Q&quot;,&quot;Berkeley Bowl (the first)&quot;,&quot;Bakesale Betty&quot;,&quot;Homeroom&quot;,&quot;Bakesale Betty&quot;,&quot;Cheeseboard Pizza&quot;,&quot;Asqew Grill&quot;,&quot;Buckhorn Grill&quot;,&quot;California Pizza Kitchen&quot;,&quot;Fuddruckers&quot;,&quot;Pasta Pomodoro&quot;,&quot;Rubio's Grill&quot;,&quot;Doyle Park Food Trucks&quot;,&quot;53rd and Hollis Food Trucks&quot;,&quot;64th and Hollis Food Trucks&quot;]">
+
+<input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes">
+
+  <button type="submit" class="btn btn-success">+ New Group</button>
+</form>
+
 <div class="join1">
 <div class="row">
 <div class="span4">
@@ -71,5 +87,7 @@
 </div>
 </div>
 </div>
+<script src="/static/bootstrap/js/jquery.js"></script>
+<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
 </body>
 </html>
