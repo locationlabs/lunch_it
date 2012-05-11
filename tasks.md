@@ -7,7 +7,6 @@ Tasks:
  - Set up a "staging" machine for QA (sam)
  - first round QA (irene)
  - different css for "captain" and "you" classes in participant list
- - tweak main page template to add "you" class to your name
  - figure out restaurant page
  - make restaurants clickable / figure out a way to include restaurant data (jacob)
 
@@ -17,9 +16,11 @@ Second Tier:
  - mobile-aware UI
  - invites popup on train creation
  - invited-but-not-on-board list and display of same
+ - user profile page
  - weighting function for users. (?lunch quotient?) (ryan)
  
 Completed:
+ - tweak main page template to add "you" class to your name
  - make "remove" work (ryan)
  - make "join" work (ryan)
  - make travel method work correctly (oliver)
