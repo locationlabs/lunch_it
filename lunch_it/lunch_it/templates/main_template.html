@@ -19,30 +19,47 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th></th>
         <th>Time</th>
-		<th></th>
+	<th></th>
         <th>Place</th>
         <th>Who's Going?</th>
-		<th>Notes</th>
+	<th>Notes</th>
       </tr>
     </thead>
     <tbody>
-      {% if destination %}
-      {% for row in destination %}
+      {% if trains %}
+      {% for train in trains %}
         <tr>
-	  <td>{{row.departure_time.time}}</td>
-	  <td>{{row.transport}}</td>
-	  <td>{{row.destination_display}}</td>
+          <td>
+            {% if not your_train %}
+              <form action="/join/" method="POST">
+                {% csrf_token %}
+	        <input type="hidden" name="train_id" value="{{ train.id }}" />
+                <button type="submit" class="btn btn-small btn-primary">Join</button>
+	      </form>
+	    {% endif %}
+            {% if your_train and train == your_train %}
+              <form action="/leave/" method="POST">
+                {% csrf_token %}
+	        <input type="hidden" name="train_id" value="{{ train.id }}" />
+                <button type="submit" class="btn btn-small btn-inverse">Leave</button>
+	      </form>
+	    {% endif %}
+	  </td>
+	  <td>{{train.departure_time.time}}</td>
+	  <td>{{train.transport}}</td>
+	  <td>{{train.destination_display}}</td>
 	  <td>
-	    <span class="label label-info captain">{{ row.captain_info.display_name }}</span>
-            {% if row.passengers %}
-            {% for person in row.passengers_info %}
+	    <span class="label label-info captain">{{ train.captain_info.display_name }}</span>
+            {% if train.passengers %}
+            {% for person in train.passengers_info %}
               <span class="label label-info">{{person.display_name}}</span>
             {% endfor %}
             {% endif %}
           </td>
 	  <td>
-		{{row.notes}}
+            {{train.notes}}
           </td>
         </tr>
       {% endfor %}

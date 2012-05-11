@@ -51,7 +51,7 @@ def index(request):
    user_info = UserInfo.objects.get(username = request.user.username)
 
    view = 'main_template.html'
-   return render(request, view, {'destination': trains, 'places' : places, 'user_info' : user_info })
+   return render(request, view, {'trains': trains, 'places' : places, 'user_info' : user_info })
 
 def createNewGroup(request):
    if not request.user.is_authenticated():
