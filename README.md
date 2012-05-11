@@ -13,6 +13,9 @@ sudo apt-get install libmysqlclient-dev python-dev
 
 That's to make mysql work.
 
+You may also need virtualenv
+sudo apt-get install python-virtualenv
+
 2) check out
 git clone git@github.com:locatinolabs/lunch_it.git
 cd lunch_it
