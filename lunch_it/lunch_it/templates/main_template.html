@@ -5,110 +5,118 @@
 <link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div class="join1">
-    <a href="#"><img src="/static/lunchit2.png" height="60"></a>
+  <div class="row">
+	  <div class="span8">
+      <a href="#"><img src="/static/lunchit2.png" height="60"></a>
+    </div>
+    <div class="span4">	
+      <a href="/logout/">log out</a>
+    </div>
   </div>
   <div class="row">
     <div class="span12">
-    <div class="join1">
-      <h2>Where is everyone going to lunch today?
-    </h2>
+      <div class="join1">
+        <h2>Where is everyone going to lunch today?</h2>
+      </div>
+    </div>
+    <div class="span12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Time</th>
+	    <th></th>
+            <th>Place</th>
+            <th>Who's Going?</th>
+	    <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if trains %}
+          {% for train in trains %}
+            <tr>
+              <td>
+                {% if not your_train %}
+                  <form action="/join/" method="POST">
+                    {% csrf_token %}
+	            <input type="hidden" name="train_id" value="{{ train.id }}" />
+                    <button type="submit" class="btn btn-small btn-primary">Join</button>
+	          </form>
+	        {% endif %}
+                {% if your_train and train == your_train %}
+                  <form action="/leave/" method="POST">
+                    {% csrf_token %}
+	            <input type="hidden" name="train_id" value="{{ train.id }}" />
+                    <button type="submit" class="btn btn-small btn-inverse">Leave</button>
+	          </form>
+	        {% endif %}
+	      </td>
+	      <td>{{train.departure_time|time:"h:i"}}</td>
+	      <td><img src="/static/icon_transport_{{train.transport}}.png" width="20" height="20"/></td>
+	      <td>{{train.destination_display}}</td>
+	      <td>
+	        <span class="label label-info captain">{{ train.captain_info.display_name }}</span>
+                {% if train.passengers %}
+                {% for person in train.passengers_info %}
+                  <span class="label label-info">{{person.display_name}}</span>
+                {% endfor %}
+                {% endif %}
+              </td>
+	      <td>
+                {{train.notes}}
+              </td>
+            </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  {% if not your_train %}
+  <div class"span12">
+    <form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
+      <h6>Start your own group</h6>
+      <input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
+             data-provide="typeahead" data-items="4"
+             data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
+
+      <input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place"
+             data-provide="typeahead" data-items="8"
+             data-source="[&quot;{{ places|join:'&quot;,&quot;'}}&quot;]">
+
+      <input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes" name="notes" >
+
+      <button type="submit" class="btn btn-success">+ New Group</button>
+    </form>
+  </div>
+  {% endif %}
 </div>
-<div class="span12">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Time</th>
-	<th></th>
-        <th>Place</th>
-        <th>Who's Going?</th>
-	<th>Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% if trains %}
-      {% for train in trains %}
-        <tr>
-          <td>
-            {% if not your_train %}
-              <form action="/join/" method="POST">
-                {% csrf_token %}
-	        <input type="hidden" name="train_id" value="{{ train.id }}" />
-                <button type="submit" class="btn btn-small btn-primary">Join</button>
-	      </form>
-	    {% endif %}
-            {% if your_train and train == your_train %}
-              <form action="/leave/" method="POST">
-                {% csrf_token %}
-	        <input type="hidden" name="train_id" value="{{ train.id }}" />
-                <button type="submit" class="btn btn-small btn-inverse">Leave</button>
-	      </form>
-	    {% endif %}
-	  </td>
-	  <td>{{train.departure_time.time}}</td>
-	  <td>{{train.transport}}</td>
-	  <td>{{train.destination_display}}</td>
-	  <td>
-	    <span class="label label-info captain">{{ train.captain_info.display_name }}</span>
-            {% if train.passengers %}
-            {% for person in train.passengers_info %}
-              <span class="label label-info">{{person.display_name}}</span>
-            {% endfor %}
-            {% endif %}
-          </td>
-	  <td>
-            {{train.notes}}
-          </td>
-        </tr>
-      {% endfor %}
-      {% endif %}
-    </tbody>
-  </table>
-</div>
-</div>
-
-<form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
-<h6>Start your own group</h6>
-<input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
-       data-provide="typeahead" data-items="4"
-       data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
-
-<input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place"
-       data-provide="typeahead" data-items="8"
-       data-source="[&quot;{{ places|join:'&quot;,&quot;'}}&quot;]">
-
-<input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes" name="notes" >
-
-  <button type="submit" class="btn btn-success">+ New Group</button>
-</form>
 
 <div class="join1">
-<div class="row">
-<div class="span4">
-	<div class="well">
-		<h6>Today's Suggested Restaurants</h6>
-       <ul class="nav nav-list">
+  <div class="row">
+    <div class="span4">
+      <div class="well">
+        <h6>Today's Suggested Restaurants</h6>
+        <ul class="nav nav-list">
           <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel </a></li>
           <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</a></li>
           <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</a></li>
           <li><a href="#"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</a></li>
        </ul>
-    </div>
+     </div>
 
-<!-- insert this once we have the reccomendation engine up
+     <!-- insert this once we have the recommendation engine up
 	<ul class="nav nav-list">
         {% for restaurant in suggestedRestuarants %}	
           <li><a href="#"><img src="{{restaurant.transportation}}" width="20" height="20"> {{restaurant.name}} </a></li>
         {% endfor %}
 	</ul>
--->
+     -->
 
+    </div>
+  </div>
 </div>
-</div>
-</div>
-<div><a href="/logout/">log out</a></div>
 <script src="/static/bootstrap/js/jquery.js"></script>
 <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
 </body>
