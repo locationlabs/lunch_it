@@ -1,5 +1,6 @@
 Tasks:
- - deploy on EC2 - underway (Oliver)
+ - deploy on EC2: underway (Oliver)
+ - initial data for restaurants (Oliver)
  - Decide on first couple of pages
  - sketch out forms for them
  - Put Django template tags in main_template.html (Jacob)
