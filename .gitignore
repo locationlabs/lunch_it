@@ -1,2 +1,7 @@
 *.pyc
 env
+.#*
+#*#
+distribute-*
+*.swp
+deploy/static

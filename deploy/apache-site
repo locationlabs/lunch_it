@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+
+ServerName ll.lunchit.com
+
+ErrorLog /var/log/apache2/error-lunchit.log
+CustomLog /var/log/apache2/access-lunchit.log combined
+
+DocumentRoot /var/wsgi/lunch_it/content
+Alias /static/ /var/wsgi/lunch_it/content/static/
+
+WSGIDaemonProcess lunchit display-name=lunchit user=www-data processes=2 threads=1
+WSGIScriptAlias / /var/wsgi/lunch_it/mod_wsgi/dispatch.wsgi
+
+</VirtualHost>
