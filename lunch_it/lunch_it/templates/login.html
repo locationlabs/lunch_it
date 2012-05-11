@@ -11,13 +11,17 @@
 		<a href="#"><img src="/static/lunchit2.png" height="60"></a>
 	</div>
 <div class="span8">
+	
 {% if errors %}
+<div class="alert alert-error">
  <ul>
  {% for e in errors %}
     <li>{{e}}
  {% endfor %}
  </ul>
+	</div>
 {% endif %}
+
 
 <form class="well form-inline" action="/login/" method="post">{% csrf_token %}
 {{ form.as_p }}<span class="add-on">@locationlabs.com</span>
