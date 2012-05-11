@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     # crispy forms adds some bootstrap compatibility
     'crispy_forms',
+    'trains'
 )
 
 # A sample logging configuration. The only tangible logging
