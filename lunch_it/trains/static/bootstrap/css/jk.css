@@ -44,3 +44,7 @@ p {
 	font-size: 100px;
 	background-color: black;
 }
+
+.hidden {
+  display : none;
+}

@@ -14,6 +14,52 @@
       document.location.href = "/profile?u=" + username;
       return false;
     }
+
+    function validate() {
+
+      var form = $('form[action="newGroup/"]');
+      var errorsDiv = $('div.alert', form);
+      var time = $('input[name="time"]', form);
+      var place = $('input[name="place"]', form);
+      var notes = $('input[name="notes"]', form);
+
+      if (String.prototype.trim) {
+        time.val(time.val().trim());
+        place.val(place.val().trim());
+        notes.val(notes.val().trim());
+      }
+
+      var errors = [];
+
+      if (time.val() == "") {
+        errors.push("Please enter a time");
+      }
+      else {
+        var colon = time.val().indexOf(':');
+        if (colon == -1 ||
+            !$.isNumeric(time.val().substring(0, colon)) ||
+            !$.isNumeric(time.val().substring(colon + 1))) {
+          errors.push("Please enter a valid time");
+        }
+      }
+
+      if (place.val() === "") {
+        errors.push("Please choose a place");
+      }
+
+      if (errors.length > 0) {
+        var ul = $('ul', errorsDiv);
+        ul.empty();
+        for (var i = 0; i < errors.length; i++) {
+          ul.append('<li>' + errors[i] + '</li>');
+        }
+        errorsDiv.removeClass('hidden');
+        return false;
+      }
+      return true;
+
+    }
+
   </script>
 </head>
 <body>
@@ -95,8 +141,13 @@
     <div class="row">
       {% if not your_train %}
       <div class"span12">
-        <form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
+        <form class="well form-inline" action="newGroup/" method="POST" onsubmit="javascript:return validate()" >{% csrf_token %}
           <h6>Start your own group</h6>
+
+          <div class="alert alert-error hidden">
+            <ul>
+            </ul>
+          </div>
           <input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
                  data-provide="typeahead" data-items="4"
                  data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
