@@ -3,28 +3,28 @@ from django.db import models
 # Create your models here.
 
 class User(models.Model):
-   name = models.CharField()
+   name = models.CharField(max_length=256)
 
    def __unicode__(self):
       return self.name
 
 
 class Office(models.Model):
-   location = models.CharField()
-   name = models.CharField()
+   location = models.CharField(max_length=256)
+   name = models.CharField(max_length=256)
 
    def __unicode__(self):
       return self.name
 
 
 class Restaurant(models.Model):
-   name = models.CharField()
-   address = models.CharField()
-   icon = models.ImageField()
+   name = models.CharField(max_length=256)
+   address = models.CharField(max_length=256)
+   icon = models.ImageField(upload_to='users/icons')
    url = models.URLField()
    menu_url = models.URLField()
-   latitude = models.DecimalField()
-   longitude = models.DecimalField()
+   latitude = models.DecimalField(decimal_places=5, max_digits=10)
+   longitude = models.DecimalField(decimal_places=5, max_digits=10)
    walkable = models.BooleanField()
 
    def __unicode__(self):
@@ -33,9 +33,10 @@ class Restaurant(models.Model):
 
 class Train(models.Model):
    departureTime = models.DateField()
-   captain = models.ForeignKey('User')
-   passengers = models.ManyToMany('User')
+   captain = models.ForeignKey('User', related_name='+')
+   passengers = models.ManyToManyField('User')
    destination = models.ForeignKey('Restaurant')
+   notes = models.TextField()
 
    def __unicode__(self):
       return u'%s train to %s' % (self.departureTime, self.destination)
