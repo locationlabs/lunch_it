@@ -179,9 +179,31 @@ def profile(request):
    favorite_places.sort(lambda x, y : cmp(x['visits'], y['visits']), None, True)
 
    co_lunchers = []
-   # for user in 
-   # for train in Train.objects.all():
-   #   if train.captain == user and 
+   co_map = {}
+   for co_user in User.objects.all():
+      co_luncher = {
+         "user" : co_user,
+         "user_info" : UserInfo.objects.get(username = co_user.username),
+         "lunches" : 0 }
+      co_lunchers.append(co_luncher)
+      co_map[co_user.username] = co_luncher
+
+   def inc(a_user):
+      co_map[co_user.username]['lunches'] = co_map[co_user.username]['lunches'] + 1
+
+   for train in Train.objects.all():
+      all_passengers = train.passengers.all()
+      if train.captain == user or user in all_passengers:
+         if train.captain != user:
+            inc(train.captain)
+         for co_user in all_passengers:
+            if co_user != user:
+               inc(co_user)
+
+   co_lunchers.sort(lambda x, y : cmp(x['lunches'], y['lunches']), None, True)
+
+   while co_lunchers and co_lunchers[-1]['lunches'] == 0:
+      co_lunchers.pop()
 
    view = 'profile_template.html'
    return render(request, view, {
