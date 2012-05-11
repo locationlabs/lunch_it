@@ -32,7 +32,7 @@ def reorderTrains(trains, user):
 
    return retTrains
 
-EARTH_RADIUS_METERS = 63710000
+EARTH_RADIUS_METERS = 6371000
 
 def distance(one, two):
    dLat = math.radians(two.latitude - one.latitude)
