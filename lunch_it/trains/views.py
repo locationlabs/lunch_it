@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.shortcuts import render
-from trains.models import User, Train, Restaurant
+from trains.models import UserInfo, Train, Restaurant
 from django.contrib.auth import authenticate, login as auth_login
 import trains.helper as helper
 from forms import * 
@@ -31,6 +31,9 @@ def login(request):
             return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."],'form':form})
         
 def index(request):
+   if not request.user.is_authenticated():
+      return HttpResponseRedirect('/login/')
+
    # Stuff we need to get 
    # all today's trains  TODO filter this by today's date
    trains = list(Train.objects.all())
@@ -52,6 +55,8 @@ def index(request):
    return render(request, view, {'destination': trains, 'user_info' : user_info })
 
 def createNewGroup(request):
+   if not request.user.is_authenticated():
+      return HttpResponseRedirect('/login/')
 
    place_str = request.POST['place']
    time_str = request.POST['time']
@@ -84,10 +89,16 @@ def createNewGroup(request):
    return index(request)
 
 def joinGroup(request):
+   if not request.user.is_authenticated():
+      return HttpResponseRedirect('/login/')
+
    view = 'main_template.html'
    return render(request, view, {})
 
 def leaveGroup(request):
+   if not request.user.is_authenticated():
+      return HttpResponseRedirect('/login/')
+
    view = 'main_template.html'
    return render(request, view, {})
 

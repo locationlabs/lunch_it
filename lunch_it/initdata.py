@@ -59,9 +59,10 @@ if __name__ == "__main__":
          display_name = user_row[1] + " " + user_row[0][0] + "."
       else:
          display_name = user_row[1]
-      user = User(username = user_row[2],
-                  password = "password")
+      user = User(username = user_row[2], first_name = user_row[1], last_name = user_row[0])
+      user.set_password("password")
       user.save()
+
       user_info = UserInfo(username = user_row[2],
                   display_name = display_name)
       user_info.save()
