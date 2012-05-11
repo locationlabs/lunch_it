@@ -1,4 +1,4 @@
-lunch_it
+qlunch_it
 ========
 
 Lunch train organization mobile web application
@@ -12,9 +12,6 @@ On Ubuntu, you'll also need:
 sudo apt-get install libmysqlclient-dev python-dev
 
 That's to make mysql work.
-
-You may also need virtualenv
-sudo apt-get install python-virtualenv
 
 2) check out
 git clone git@github.com:locatinolabs/lunch_it.git
@@ -33,16 +30,6 @@ pip install python-ldap
 
 6) run the app:
 manage.py runserver
-
-7) Create the database:
-
-CREATE DATABASE lunchit CHARACTER SET utf8;
-
-8) Create user for database
-GRANT ALL PRIVILEGES ON *.* TO 'lunchmonster'@'localhost' IDENTIFIED BY 'mylunch';
-
-9) First database sync
-python manage.py syncdb
 
 
 Notes
