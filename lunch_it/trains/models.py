@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -36,11 +37,10 @@ class Restaurant(models.Model):
    def __unicode__(self):
       return self.name
 
-
 class Train(models.Model):
    departureTime = models.DateField()
-   captain = models.ForeignKey('User', related_name='+')
-   passengers = models.ManyToManyField('User')
+   captain = models.ForeignKey(User, related_name='+')
+   passengers = models.ManyToManyField(User)
    destination = models.ForeignKey('Restaurant')
    notes = models.TextField()
 
