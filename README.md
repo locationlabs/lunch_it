@@ -9,7 +9,7 @@ Setup instructions:
 > sudo apt-get install python-setuptools
 
 On Ubuntu, you'll also need:
-> sudo apt-get install libmysqlclient-dev python-dev
+> sudo apt-get install libmysqlclient-dev python-dev  
 
 That's to make mysql work.
 
@@ -20,7 +20,7 @@ For the icons, you need the python imaging library
 sudo apt-get install python-imaging
 
 2) check out
-> git clone git@github.com:locatinolabs/lunch_it.git
+> git clone git@github.com:locationlabs/lunch_it.git  
 > cd lunch_it
 
 3) create virtual env
@@ -30,8 +30,8 @@ sudo apt-get install python-imaging
 > . env/bin/activate
 
 5) install required packages
-> pip install django
-> pip install MySQL-python
+> pip install django  
+> pip install MySQL-python  
 > pip install django-crispy-forms
 
 Not working now, but might be useful eventually:
@@ -49,6 +49,15 @@ Not working now, but might be useful eventually:
 
 9) First database sync
 > python manage.py syncdb
+
+Resetting the DB
+----------------
+
+To Reset the DB and re-load the initial data:
+
+> python manage.py sqlclear trains | mysql -uroot -proot lunchit  
+> python manage.py syncdb  
+> python initdata.py
 
 
 Notes
