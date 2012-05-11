@@ -1,6 +1,4 @@
 Tasks:
- - make "remove" work (ryan)
- - make "join" work (ryan)
  - fix timezones and make time entry work for 1: and 13: (jacob)
  - deploy on EC2: needs update and troubleshooting (sam)
    - http://ll.lunchit.com/
@@ -19,9 +17,11 @@ Second Tier:
  - mobile-aware UI
  - invites popup on train creation
  - invited-but-not-on-board list and display of same
- - weighting function for users. (?lunch quotient?)
+ - weighting function for users. (?lunch quotient?) (ryan)
  
 Completed:
+ - make "remove" work (ryan)
+ - make "join" work (ryan)
  - make travel method work correctly (oliver)
  - fix time on main page  (oliver)
  - add "remove" and "join" buttons to main page in appropriate cases (oliver)
