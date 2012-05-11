@@ -1,4 +1,5 @@
 from trains.models import User, Train, Restaurant
+import math
 
 def suggestCompanionUsers(user):
    people = []
@@ -33,3 +34,15 @@ def reorderTrains(trains, user):
 
    return retTrains
 
+EARTH_RADIUS_METERS = 63710000
+
+def distance(one, two):
+   dLat = math.radians(two.latitude - one.latitude)
+   dLon = math.radians(two.longitude - one.longitude)
+   lat1 = math.radians(one.latitude)
+   lat2 = math.radians(two.latitude)
+
+   a = (math.sin(dLat/2) * math.sin(dLat/2) +
+        math.sin(dLon/2) * math.sin(dLon/2) * math.cos(lat1) * math.cos(lat2))
+   c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+   return EARTH_RADIUS_METERS * c

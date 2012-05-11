@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.shortcuts import render
-from trains.models import User, Train, Restaurant
+from trains.models import UserInfo, Train, Restaurant
 import trains.helper as helper
 from forms import * 
 import datetime
@@ -37,14 +36,18 @@ def index(request):
    # Stuff we need to get 
    # all today's trains  TODO filter this by today's date
    trains = list(Train.objects.all())
-   # Suggested destinations
-   places = list(Restaurant.objects.all())
 
    # Order the list of trains
    trains = helper.reorderTrains(trains, request.user)
 
+   # Suggested destinations
+   places = Restaurant.objects.all()
+
+   # user info for current user
+   user_info = UserInfo.objects.get(username = request.user.username)
+
    view = 'main_template.html'
-   return render(request, view, {'destination': trains})
+   return render(request, view, {'destination': trains, 'user_info' : user_info })
 
 def createNewGroup(request):
 
