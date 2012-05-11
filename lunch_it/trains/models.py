@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class User(models.Model):
+class UserInfo(models.Model):
    username = models.CharField(max_length=256)
    password = models.CharField(max_length=256)
    display_name = models.CharField(max_length=256)
