@@ -1,35 +1,32 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.shortcuts import render
 from trains.models import User, Train, Restaurant
+from django.contrib.auth import authenticate, login as auth_login
 from forms import * 
 
-# checks if users are logged in
-def hasAuth(request):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/')
-    else:
-        pass
-
 def login(request):
+
     if request.method == 'GET':
         form = LoginForm()
         return render(request,'login.html',{'form':form})
     elif request.method == 'POST':
         form = LoginForm(request.POST)
         if not form.is_valid:
-            return render(request,'login.html', {'errors':["The data you entered is invalid"]})
+            return render(request,'login.html', {'errors':["The data you entered is invalid"], 'form':form})
         else:
-            username = self.cleaned_data['username']
+            username = form.data['username']
+            print username
             password = 'password'
             user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
+                auth_login(request, user)
+                print 'yup!'
                 return HttpResponseRedirect('/')
             else:
-                return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."]})
+                return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."],'form':form})
         else:
-            return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."]})
+            return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."],'form':form})
         
 def index(request):
    # Stuff we need to get 
