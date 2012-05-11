@@ -3,6 +3,12 @@
   <title>Lunch It!</title>
 <link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
 <link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    function preFillNewGroup(restaurant) {
+        var newPlace = document.getElementById("newPlaceField");
+        newPlace.value = $.trim(restaurant.innerText)
+    };
+</script>
 </head>
 <body>
 	<div class="container">
@@ -89,7 +95,7 @@
              data-provide="typeahead" data-items="4"
              data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
 
-      <input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place"
+      <input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place" id="newPlaceField"
              data-provide="typeahead" data-items="8"
              data-source="[&quot;{{ places|join:'&quot;,&quot;'}}&quot;]">
 
@@ -107,10 +113,10 @@
       <div class="well">
         <h6>Today's Suggested Restaurants</h6>
         <ul class="nav nav-list">
-          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel </a></li>
-          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</a></li>
-          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</a></li>
-          <li><a href="#"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</a></li>
+          <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel</li>
+          <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</li>
+          <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</li>
+          <li onClick="preFillNewGroup(this);"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</li>
        </ul>
      </div>
 

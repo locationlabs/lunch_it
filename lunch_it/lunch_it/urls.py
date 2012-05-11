@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'leave/', 'trains.views.leaveGroup', name='leave'),
     url(r'login/', 'trains.views.login', name='login'),
     url(r'logout/', 'trains.views.logout', name='logout'),
+    url(r'profile/', 'trains.views.profile', name='profile'),
     # Examples:
     # url(r'^$', 'lunch_it.views.home', name='home'),
     # url(r'^lunch_it/', include('lunch_it.foo.urls')),
