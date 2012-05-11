@@ -1,33 +1,37 @@
 from django.shortcuts import render, HttpResponseRedirect
 from trains.models import UserInfo, Train, Restaurant
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 import trains.helper as helper
 from forms import * 
 import datetime
 
 def login(request):
 
-    if request.method == 'GET':
-        form = LoginForm()
-        return render(request,'login.html',{'form':form})
-    elif request.method == 'POST':
-        form = LoginForm(request.POST)
-        if not form.is_valid:
-            return render(request,'login.html', {'errors':["The data you entered is invalid"], 'form':form})
-        else:
-            username = form.data['username']
-            #print username
-            password = 'password'
-            user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                auth_login(request, user)
-                #print 'yup!'
-                return HttpResponseRedirect('/')
-            else:
-                return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."],'form':form})
-        else:
-            return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."],'form':form})
+   if request.method == 'GET':
+      form = LoginForm()
+      return render(request,'login.html',{'form':form})
+   elif request.method == 'POST':
+      form = LoginForm(request.POST)
+      if not form.is_valid:
+         return render(request,'login.html', {'errors':["The data you entered is invalid"], 'form':form})
+      else:
+         username = form.data['username']
+         #print username
+         password = 'password'
+         user = authenticate(username=username, password=password)
+      if user is not None:
+         if user.is_active:
+            auth_login(request, user)
+            #print 'yup!'
+            return HttpResponseRedirect('/')
+         else:
+            return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."],'form':form})
+      else:
+         return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."],'form':form})
+
+def logout(request):
+   auth_logout(request)
+   return HttpResponseRedirect('/login/')
         
 def index(request):
    if not request.user.is_authenticated():

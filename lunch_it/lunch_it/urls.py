@@ -11,7 +11,8 @@ urlpatterns = patterns('',
     url(r'newGroup/', 'trains.views.createNewGroup', name='newTrain'),
     url(r'join/', 'trains.views.joinGroup', name='join'),
     url(r'leave/', 'trains.views.leaveGroup', name='leave'),
-    url(r'login/', 'trains.views.login', name='login')
+    url(r'login/', 'trains.views.login', name='login'),
+    url(r'logout/', 'trains.views.logout', name='logout'),
     # Examples:
     # url(r'^$', 'lunch_it.views.home', name='home'),
     # url(r'^lunch_it/', include('lunch_it.foo.urls')),
