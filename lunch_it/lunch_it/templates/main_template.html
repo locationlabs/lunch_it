@@ -6,7 +6,9 @@
 <script type="text/javascript">
     function preFillNewGroup(restaurant) {
         var newPlace = document.getElementById("newPlaceField");
-        newPlace.value = $.trim(restaurant.innerText)
+        if (newPlace != null){ 
+          newPlace.value = $.trim(restaurant.innerText)
+        }
     };
 </script>
 </head>
