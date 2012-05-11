@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 import trains.helper as helper
 from forms import * 
 import datetime
+import time
 
 def login(request):
 
@@ -58,9 +59,8 @@ def createNewGroup(request):
       return HttpResponseRedirect('/login/')
 
    place_str = request.POST['place']
-   time_str = request.POST['time']
+   time_str = str(request.POST['time'])
    notes = request.POST['notes']
-
    restaurant_query = Restaurant.objects.filter(name__iexact = place_str)
    if restaurant_query.count() == 0:
       restaurant = None
@@ -68,14 +68,16 @@ def createNewGroup(request):
    else:
       restaurant = restaurant_query[0]
       one_off_name = None
-
    time_split = time_str.split(':')
-   hours = int(time_split[0])
-   if len(time_split) > 1:
-      minutes = int(time_split[1])
-   else:
-      minutes = 0
-   dt = datetime.datetime.combine(datetime.date.today(), datetime.time(hours, minutes))
+   timeformat = int(time_split[0])
+   if timeformat < 8:
+       tdelta = 12
+   else: 
+       tdelta = 0
+
+   time_str = '%s %s' % (str(datetime.date.today()), time_str)
+   print time_str
+   dt = datetime.datetime.strptime(time_str, "%Y-%m-%d %H:%M") + datetime.timedelta(hours=tdelta)
 
    train = Train(departure_time = dt,
          captain = request.user,
