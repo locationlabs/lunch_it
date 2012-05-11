@@ -38,7 +38,7 @@ class Restaurant(models.Model):
 
 
 class Train(models.Model):
-   departureTime = models.DateField()
+   departureTime = models.DateTimeField()
    captain = models.ForeignKey('User', related_name='+')
    passengers = models.ManyToManyField('User')
    destination = models.ForeignKey('Restaurant')

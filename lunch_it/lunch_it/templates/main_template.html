@@ -30,7 +30,7 @@
       {% if destination %}
       {% for row in destination %}
         <tr>
-          <td>{{row.departureTime}}</td>
+          <td>{{row.departureTime.time}}</td>
 		  <td>{{row.transportation}}</td>
           <td>{{row.destination}}</td>
           <td>
