@@ -6,15 +6,20 @@
 </head>
 <body>
 	<div class="container">
+		
+		<div class="btn-group pull-right">
+		   <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+		      <i class="icon-user"></i> {{user_info.display_name}}
+		          <span class="caret"></span>
+		   </a>
+		   <ul class="dropdown-menu">
+		          <li><a href="/logout/">Sign Out</a></li>
+		   </ul>
+		</div>
+		
   <div class="join1">
     <a href="#"><img src="/static/lunchit2.png" height="60"></a>
   <div class="row">
-	  <div class="span8">
-      <a href="#"><img src="/static/lunchit2.png" height="60"></a>
-    </div>
-    <div class="span4">	
-      <a href="/logout/">log out</a>
-    </div>
   </div>
   <div class="row">
     <div class="span12">
@@ -122,9 +127,9 @@
 </div>
 </div>
 </div>
-<div><a href="/logout/">log out</a></div>
 </div>
 <script src="/static/bootstrap/js/jquery.js"></script>
 <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+<script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
 </body>
 </html>
