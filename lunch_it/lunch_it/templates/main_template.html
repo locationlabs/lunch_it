@@ -58,10 +58,10 @@
 	      <td><img src="/static/icon_transport_{{train.transport}}.png" width="20" height="20"/></td>
 	      <td>{{train.destination_display}}</td>
 	      <td>
-	        <span class="label label-info captain">{{ train.captain_info.display_name }}</span>
+		      <span class="label label-info captain{% ifequal train.captain user %} you{% endifequal %}">{{ train.captain_info.display_name }}</span>
                 {% if train.passengers %}
                 {% for person in train.passengers_info %}
-                  <span class="label label-info">{{person.display_name}}</span>
+                  <span class="label label-info{% ifequal person.username user.username %} you{% endifequal %}">{{person.display_name}}</span>
                 {% endfor %}
                 {% endif %}
               </td>
