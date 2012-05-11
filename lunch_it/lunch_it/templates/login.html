@@ -24,9 +24,12 @@
 
 
 <form class="well form-inline" action="/login/" method="post">{% csrf_token %}
-{{ form.as_p }}<span class="add-on">@locationlabs.com</span>
-<input class="btn btn-primary" type="submit" value="Submit" />
-
+{% for field in form %}
+  {{ field.name|capfirst }}: {{field}}<span class="add-on"> @locationlabs.com</span>
+{% endfor %}
+<div style="margin-left:75px;display:inline-block">
+  <input class="btn btn-primary" type="submit" value="Submit" />
+</div>
 </form>
 </div>
 </div>
