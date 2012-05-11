@@ -13,7 +13,7 @@ if __name__ == "__main__":
    from lunch_it import settings
    setup_environ(settings)
 
-   from trains.models import Restaurant, Office
+   from trains.models import Restaurant, Office, User
 
    r = csv.reader(open('restaurants.csv'))
    for row in r:
@@ -39,6 +39,29 @@ if __name__ == "__main__":
 
       restaurant.save()
       time.sleep(1)
+
+   u = csv.reader(open('users.csv'))
+   user_rows = []
+   for user_row in u:
+      user_rows.append(user_row)
+
+   duplicate_given_names = set()
+   given_names = set()
+   for user_row in user_rows:
+      if user_row[1] in given_names:
+         duplicate_given_names.add(user_row[1])
+      else:
+         given_names.add(user_row[1])
+
+   for user_row in user_rows:
+      if user_row[1] in duplicate_given_names:
+         display_name = user_row[1] + " " + user_row[0][0] + "."
+      else:
+         display_name = user_row[1]
+      user = User(username = user_row[2],
+                  password = "password",
+                  display_name = display_name)
+      user.save()
 
    Office(
          name = "LLHQ",
