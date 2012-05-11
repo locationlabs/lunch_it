@@ -29,6 +29,9 @@ virtualenv env
 5) install required packages
 pip install django
 pip install MySQL-python
+pip install django-crispy-forms
+
+Not working now, but might be useful eventually:
 pip install python-ldap
 
 6) run the app:
