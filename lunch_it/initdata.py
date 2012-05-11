@@ -4,6 +4,7 @@ import sys
 import csv
 import urllib
 import xml.etree.ElementTree
+import time
 
 if __name__ == "__main__":
    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lunch_it.settings")
@@ -22,7 +23,7 @@ if __name__ == "__main__":
 
       geo_content = urllib.urlopen('http://maps.googleapis.com/maps/api/geocode/xml?%s' % params)
       geo_content_text = geo_content.read()
-      print geo_content_text
+      # print geo_content_text
       geo_xml = xml.etree.ElementTree.XML(geo_content_text)
       location_xml = geo_xml.find('result').find('geometry').find('location')
       lat = location_xml.find('lat').text
@@ -37,6 +38,7 @@ if __name__ == "__main__":
             latitude = lat, longitude = lon)
 
       restaurant.save()
+      time.sleep(1)
 
    Office(
          name = "LLHQ",

@@ -22,6 +22,8 @@ class Office(models.Model):
 class Restaurant(models.Model):
    name = models.CharField(max_length=256)
    address = models.CharField(max_length=256)
+   phone = models.CharField(max_length=256)
+   notes = models.CharField(max_length=256)
    icon = models.ImageField(upload_to='users/icons')
    url = models.URLField()
    menu_url = models.URLField()
