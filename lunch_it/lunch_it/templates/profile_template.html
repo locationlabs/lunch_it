@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lunch It!</title>
+  <link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h1>User profile for {{ user_info.display_name }}</h1>
+      </div>
+      <div class="span6 well">
+        {% if is_you %}
+        <h2>Your favorite places:</h2>
+        {% else %}
+        <h2>{{ user_info.display_name }}'s favorite places:</h2>
+        {% endif %}
+        <table class="table table-striped">
+          {% for place_info in favorite_places %}
+          <tr>
+            <td>{{place_info.restaurant.name}}</td>
+            <td>{{place_info.visits}} visits</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <div class="span6 well">
+        {% if is_you %}
+        <h2>Your common co-lunchers</h2>
+        {% else %}
+        <h2>{{ user_info.display_name }}'s known associates:</h2>
+        {% endif %}
+        <table class="table table-striped">
+          {% for luncher_info in co_lunchers %}
+          <tr>
+            <td>{{luncher_info.user_info.display_name}}</td>
+            <td>{{luncher_info.lunches}} lunches</td>
+          </tr>
+          {% endfor %}
+        </table>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>

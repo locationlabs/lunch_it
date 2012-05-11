@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from trains.models import UserInfo, Train, Restaurant
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
 import trains.helper as helper
 from forms import * 
 import datetime
@@ -99,7 +100,6 @@ def createNewGroup(request):
          notes = notes)
    train.save()
 
-   view = 'main_template.html'
    return index(request)
 
 def joinGroup(request):
@@ -123,8 +123,6 @@ def leaveGroup(request):
    group_id = request.POST['train_id']
    train = Train.objects.get(id=group_id)
    user = request.user
-
-   print "user is " , user
 
    # Remove the user from the group
    for u in train.passengers.all():
@@ -151,4 +149,45 @@ def leaveGroup(request):
       train.save()
 
    return index(request)
+
+def profile(request):
+   if not request.user.is_authenticated():
+      return HttpResponseRedirect('/login/')
+
+   username = request.GET['u']
+   user = User.objects.get(username = username)
+   user_info = UserInfo.objects.get(username = username)
+
+   if user_info.username == request.user.username:
+      is_you = True
+   else:
+      is_you = None
+
+   favorite_places = []
+
+   for place in Restaurant.objects.all():
+      visits = 0
+      for train in Train.objects.filter(destination = place):
+         if train.captain == user or user in train.passengers.all():
+            visits = visits + 1
+      if visits > 0:
+         favorite_places.append({
+               'restaurant' : place,
+               'visits' : visits
+            })
+
+   favorite_places.sort(lambda x, y : cmp(x['visits'], y['visits']), None, True)
+
+   co_lunchers = []
+   # for user in 
+   # for train in Train.objects.all():
+   #   if train.captain == user and 
+
+   view = 'profile_template.html'
+   return render(request, view, {
+         'user_info': user_info,
+         'is_you' : is_you,
+         'favorite_places' : favorite_places[0:5],
+         'co_lunchers' : co_lunchers })
+
 
