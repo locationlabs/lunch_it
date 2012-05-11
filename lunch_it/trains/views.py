@@ -37,12 +37,19 @@ def index(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
+   user = request.user
+
    # Stuff we need to get 
    # all today's trains  TODO filter this by today's date
    trains = list(Train.objects.all())
 
    # Order the list of trains
-   trains = helper.reorderTrains(trains, request.user)
+   trains = helper.reorderTrains(trains, user)
+
+   if trains and (trains[0].captain == user or user in trains[0].passengers.all()):
+      your_train = trains[0]
+   else:
+      your_train = None
 
    # Suggested destinations
    places = Restaurant.objects.all()
@@ -51,7 +58,11 @@ def index(request):
    user_info = UserInfo.objects.get(username = request.user.username)
 
    view = 'main_template.html'
-   return render(request, view, {'trains': trains, 'places' : places, 'user_info' : user_info })
+   return render(request, view, {
+         'trains': trains,
+         'your_train' : your_train,
+         'places' : places,
+         'user_info' : user_info })
 
 def createNewGroup(request):
    if not request.user.is_authenticated():
