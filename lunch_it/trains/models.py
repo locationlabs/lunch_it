@@ -66,3 +66,4 @@ class Train(models.Model):
 
    def __unicode__(self):
       return u'%s train to %s' % (self.departure_time, self.destination)
+

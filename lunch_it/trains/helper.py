@@ -1,4 +1,4 @@
-from trains.models import User, Train, Restaurant
+from django.contrib.auth.models import User
 import math
 
 def suggestCompanionUsers(user):
