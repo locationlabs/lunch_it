@@ -1,0 +1,75 @@
+<html>
+<head> 
+  <title>Lunch It!</title>
+</head>
+</body>
+<div class="row">
+	<div class="span12">
+	<div class="join1">
+		<h2>Join a Group
+
+		</h2>
+	</div>
+</div>
+<div class="span12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Time</th>
+		<th></th>
+        <th>Place</th>
+        <th>Who's Going?</th>
+		<th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in destination %}
+        <tr>
+          <td>{{row.time}}</td>
+		  <td>{{row.transportation}}</td>
+          <td>{{row.place}}</td>
+          <td>
+            {% for person in row.people %}
+              <span class="label label-info">{{person}}</span>
+            {% endfor %}
+          </td>
+		  <td>
+			{{row.notes}}
+          </td>
+        </tr>
+      {{% endfor %}}
+    </tbody>
+  </table>
+</div>
+<div class="span8">
+    <a href= "/{{addTrainUrl}}" class="btn btn-small btn-primary">+ New Group </a>
+	<!--<button class="btn btn-small btn-primary">+ New Group</button>-->
+</div>
+</div>
+<div class="join1">
+<div class="row">
+<div class="span4">
+	<div class="well">
+		<h6>Today's Suggested Restaurants</h6>
+       <ul class="nav nav-list">
+          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel </a></li>
+          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</a></li>
+          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</a></li>
+          <li><a href="#"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</a></li>
+       </ul>
+    </div>
+
+
+<!-- insert this once we have the reccomendation engine up
+	<ul class="nav nav-list">
+        {% for restaurant in suggestedRestuarants %}	
+          <li><a href="#"><img src="{{restaurant.transportation}}" width="20" height="20"> {{restaurant.name}} </a></li>
+        {% endfor %}
+	</ul>
+-->
+
+</div>
+</div>
+</div>
+</body>
+</html>

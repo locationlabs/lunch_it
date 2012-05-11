@@ -12,6 +12,8 @@ class User(models.Model):
 class Office(models.Model):
    location = models.CharField(max_length=256)
    name = models.CharField(max_length=256)
+   latitude = models.DecimalField(decimal_places=5, max_digits=10)
+   longitude = models.DecimalField(decimal_places=5, max_digits=10)
 
    def __unicode__(self):
       return self.name
