@@ -3,6 +3,7 @@ from django.shortcuts import render
 from trains.models import User, Train, Restaurant
 import trains.helper as helper
 from forms import * 
+import datetime
 
 # checks if users are logged in
 def hasAuth(request):
@@ -46,8 +47,36 @@ def index(request):
    return render(request, view, {'destination': trains})
 
 def createNewGroup(request):
-   view = 'createGroup.html'
-   return render(request, view, {})
+
+   place_str = request.POST['place']
+   time_str = request.POST['time']
+   notes = request.POST['notes']
+
+   restaurant_query = Restaurant.objects.filter(name__iexact = place_str)
+   if restaurant_query.count() == 0:
+      restaurant = None
+      one_off_name = place_str.strip()
+   else:
+      restaurant = restaurant_query[0]
+      one_off_name = None
+
+   time_split = time_str.split(':')
+   hours = int(time_split[0])
+   if len(time_split) > 1:
+      minutes = int(time_split[1])
+   else:
+      minutes = 0
+   dt = datetime.datetime.combine(datetime.date.today(), datetime.time(hours, minutes))
+
+   train = Train(departure_time = dt,
+         captain = request.user,
+         destination = restaurant,
+         one_off_destination_name = one_off_name,
+         notes = notes)
+   train.save()
+
+   view = 'main_template.html'
+   return index(request)
 
 def joinGroup(request):
    view = 'main_template.html'

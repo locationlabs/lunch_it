@@ -38,11 +38,17 @@ class Restaurant(models.Model):
       return self.name
 
 class Train(models.Model):
-   departureTime = models.DateTimeField()
+   departure_time = models.DateTimeField()
    captain = models.ForeignKey(User, related_name='+')
    passengers = models.ManyToManyField(User)
    destination = models.ForeignKey('Restaurant')
+   one_off_destination_name = models.CharField(max_length=256)
    notes = models.TextField()
 
+   def destination_display(self):
+      if self.destination:
+         return self.destination.name
+      return self.one_off_destination_name
+
    def __unicode__(self):
-      return u'%s train to %s' % (self.departureTime, self.destination)
+      return u'%s train to %s' % (self.departure_time, self.destination)

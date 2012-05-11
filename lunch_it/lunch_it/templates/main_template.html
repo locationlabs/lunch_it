@@ -30,9 +30,9 @@
       {% if destination %}
       {% for row in destination %}
         <tr>
-          <td>{{row.departureTime.time}}</td>
-		  <td>{{row.transportation}}</td>
-          <td>{{row.destination}}</td>
+	  <td>{{row.departure_time.hour}}:{{row.departure_time.minute}}</td>
+	  <td>{{row.transport}}</td>
+	  <td>{{row.destination_display}}</td>
           <td>
             {% if row.passengers %}
             {% for person in row.passengers.all %}
@@ -74,7 +74,6 @@
           <li><a href="#"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</a></li>
        </ul>
     </div>
-
 
 <!-- insert this once we have the reccomendation engine up
 	<ul class="nav nav-list">
