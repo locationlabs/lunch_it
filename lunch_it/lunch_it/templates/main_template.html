@@ -141,7 +141,8 @@
     <div class="row">
       {% if not your_train %}
       <div class"span12">
-        <form class="well form-inline" action="newGroup/" method="POST" onsubmit="javascript:return validate()" >{% csrf_token %}
+        <form class="well form-inline" action="newGroup/" method="POST"
+              onsubmit="javascript:return validate()" autocomplete="off">{% csrf_token %}
           <h6>Start your own group</h6>
 
           <div class="alert alert-error hidden">
