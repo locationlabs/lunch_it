@@ -1,0 +1,35 @@
+<<<<<<< HEAD
+{% if errors %}
+ <ul>
+ {% for e in errors %}
+    <li>{{e}}
+ {% endfor %}
+ </ul>
+{% endif %}
+<form action="/login/" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+=======
+<html>
+<head> 
+  <title>Lunch It!</title>
+<link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="join1">
+		<a href="#"><img src="/bootstrap/img/lunchit2.png" height="60"></a>
+	</div>
+<div class="span8">
+<form class="well form-inline" action="/login/" method="post">{% csrf_token %}
+{{ form.as_p }}<span class="add-on">@locationlabs.com</span>
+<input class="btn btn-primary" type="submit" value="Submit" />
+>>>>>>> f0dcfa429f3ddf0b57800e597147322c61a10a47
+</form>
+</div>
+
+<script src="/static/bootstrap/js/jquery.js"></script>
+<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+</body>
+</html>

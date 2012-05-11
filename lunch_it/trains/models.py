@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+import trains.helper
 
 # Create your models here.
 
 class UserInfo(models.Model):
    username = models.CharField(max_length=256)
-   password = models.CharField(max_length=256)
    display_name = models.CharField(max_length=256)
 
    def __unicode__(self):
@@ -32,17 +32,38 @@ class Restaurant(models.Model):
    menu_url = models.URLField()
    latitude = models.DecimalField(decimal_places=5, max_digits=10)
    longitude = models.DecimalField(decimal_places=5, max_digits=10)
-   walkable = models.BooleanField()
 
    def __unicode__(self):
       return self.name
 
+MAX_WALK_DISTANCE_METERS = 900
+
 class Train(models.Model):
-   departureTime = models.DateField()
+   departure_time = models.DateTimeField()
    captain = models.ForeignKey(User, related_name='+')
    passengers = models.ManyToManyField(User)
    destination = models.ForeignKey('Restaurant')
+   one_off_destination_name = models.CharField(max_length=256)
    notes = models.TextField()
 
+   def destination_display(self):
+      if self.destination:
+         return self.destination.name
+      return self.one_off_destination_name
+
+   def transport(self):
+      if self.destination:
+         if helper.distance(self.destination, Office.objects.all()[0]) > MAX_WALK_DISTANCE_METERS:
+            return 'drive'
+         return 'walk'
+      return 'unknown'
+
+   def passenger_display(self):
+      result = []
+      for passenger in self.passengers.all():
+         result.append(UserInfo.objects.get(username = passenger.username).display_name)
+      return result
+
    def __unicode__(self):
-      return u'%s train to %s' % (self.departureTime, self.destination)
+      return u'%s train to %s' % (self.departure_time, self.destination)
+

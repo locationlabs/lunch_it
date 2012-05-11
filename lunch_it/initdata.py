@@ -13,7 +13,8 @@ if __name__ == "__main__":
    from lunch_it import settings
    setup_environ(settings)
 
-   from trains.models import Restaurant, Office, User
+   from trains.models import Restaurant, Office, UserInfo
+   from django.contrib.auth.models import User
 
    r = csv.reader(open('restaurants.csv'))
    for row in r:
@@ -59,9 +60,11 @@ if __name__ == "__main__":
       else:
          display_name = user_row[1]
       user = User(username = user_row[2],
-                  password = "password",
-                  display_name = display_name)
+                  password = "password")
       user.save()
+      user_info = UserInfo(username = user_row[2],
+                  display_name = display_name)
+      user_info.save()
 
    Office(
          name = "LLHQ",

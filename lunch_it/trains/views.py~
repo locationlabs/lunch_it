@@ -1,68 +1,91 @@
 from django.shortcuts import render, HttpResponseRedirect
-#checks if users are logged in 
-from forms import * 
-
 <<<<<<< HEAD
-def hasAuth(request):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/')
-    else:
-        pass
-=======
 from django.shortcuts import render
 from trains.models import User, Train, Restaurant
->>>>>>> 4089d3707df56e39e934587cab588a98e1877b00
+from django.contrib.auth import authenticate, login as auth_login
+=======
+from trains.models import UserInfo, Train, Restaurant
+import trains.helper as helper
+>>>>>>> f0dcfa429f3ddf0b57800e597147322c61a10a47
+from forms import * 
+import datetime
 
 def login(request):
+
     if request.method == 'GET':
         form = LoginForm()
         return render(request,'login.html',{'form':form})
     elif request.method == 'POST':
         form = LoginForm(request.POST)
         if not form.is_valid:
-            return render(request,'login.html', {'errors':["The data you entered is invalid"]})
+            return render(request,'login.html', {'errors':["The data you entered is invalid"], 'form':form})
         else:
-            username = self.cleaned_data['username']
+            username = form.data['username']
+            print username
             password = 'password'
             user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
+                auth_login(request, user)
+                print 'yup!'
                 return HttpResponseRedirect('/')
             else:
-                return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."]})
+                return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."],'form':form})
         else:
-            return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."]})
+            return render(request,'login.html', {'errors':["Sorry - looks like your name isn't in the database."],'form':form})
         
 def index(request):
-<<<<<<< HEAD
-    view = 'main.html'
-    return render(view, {})
-
-def createNewGroup(request):
-    view = 'createGroup.html'
-    return render(view, {})
-
-def joinGroup(request):
-    view = 'main.html'
-    return render(view, {})
-
-def leaveGroup(request):
-    view = 'main.html'
-    return render(view, {})
-=======
-
    # Stuff we need to get 
    # all today's trains  TODO filter this by today's date
-   trains = Train.objects.all()
+   trains = list(Train.objects.all())
+
+   try:
+      # Order the list of trains
+      trains = helper.reorderTrains(trains, request.user)
+   except:
+      # Don't care.  Just use the list as is
+      print "Didn't order the list"
+
    # Suggested destinations
    places = Restaurant.objects.all()
+
+   # user info for current user
+   user_info = UserInfo.objects.get(username = request.user.username)
+
    view = 'main_template.html'
-   return render(request, view, {'destination': trains})
+   return render(request, view, {'destination': trains, 'user_info' : user_info })
 
 def createNewGroup(request):
-   view = 'createGroup.html'
-   return render(request, view, {})
+
+   place_str = request.POST['place']
+   time_str = request.POST['time']
+   notes = request.POST['notes']
+
+   restaurant_query = Restaurant.objects.filter(name__iexact = place_str)
+   if restaurant_query.count() == 0:
+      restaurant = None
+      one_off_name = place_str.strip()
+   else:
+      restaurant = restaurant_query[0]
+      one_off_name = None
+
+   time_split = time_str.split(':')
+   hours = int(time_split[0])
+   if len(time_split) > 1:
+      minutes = int(time_split[1])
+   else:
+      minutes = 0
+   dt = datetime.datetime.combine(datetime.date.today(), datetime.time(hours, minutes))
+
+   train = Train(departure_time = dt,
+         captain = request.user,
+         destination = restaurant,
+         one_off_destination_name = one_off_name,
+         notes = notes)
+   train.save()
+
+   view = 'main_template.html'
+   return index(request)
 
 def joinGroup(request):
    view = 'main_template.html'
@@ -71,4 +94,4 @@ def joinGroup(request):
 def leaveGroup(request):
    view = 'main_template.html'
    return render(request, view, {})
->>>>>>> 4089d3707df56e39e934587cab588a98e1877b00
+
