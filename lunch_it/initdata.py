@@ -5,6 +5,9 @@ import csv
 import urllib
 import xml.etree.ElementTree
 import time
+import random
+import datetime
+
 
 if __name__ == "__main__":
    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lunch_it.settings")
@@ -13,7 +16,7 @@ if __name__ == "__main__":
    from lunch_it import settings
    setup_environ(settings)
 
-   from trains.models import Restaurant, Office, UserInfo
+   from trains.models import Restaurant, Office, UserInfo, Train
    from django.contrib.auth.models import User
 
    r = csv.reader(open('restaurants.csv'))
@@ -72,6 +75,29 @@ if __name__ == "__main__":
          location = "Emeryville, CA",
          latitude = "37.842139", longitude = "-122.289215").save()
 
+   dt = datetime.datetime.now() - datetime.timedelta(days = 5)	
+   numDests = Restaurant.objects.all().count()
+   rid = random.randint(0, numDests)
+   numDests = Restaurant.objects.all().count()
+   numUsers = User.objects.all().count()
+
+   for cap in User.objects.all():
+      rid = random.randint(1, numDests)
+      dest = Restaurant.objects.get(id = rid)
+      id1 = random.randint(1, numUsers)
+      id2 = random.randint(1, numUsers)
+      p1 = User.objects.get(id = id1)
+      p2 = User.objects.get(id = id2)
+      t = Train(departure_time = dt,
+                captain = cap,
+                destination = dest)
+      t.save()
+      t.passengers = []
+      t.passengers.add(p1)
+      t.passengers.add(p2)
+      t.save()
+
    print 'Created initial data in DB!'
 
 
+   
