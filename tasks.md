@@ -1,9 +1,7 @@
 Tasks:
  - make "remove" work (ryan)
  - make "join" work (ryan)
- - fix time on main page  (oliver)
  - fix timezones and make time entry work for 1: and 13: (jacob)
- - make travel method work correctly (oliver)
  - deploy on EC2: needs update and troubleshooting (sam)
    - http://ll.lunchit.com/
    - root@ec2-107-20-16-45.compute-1.amazonaws.com
@@ -24,6 +22,8 @@ Second Tier:
  - weighting function for users. (?lunch quotient?)
  
 Completed:
+ - make travel method work correctly (oliver)
+ - fix time on main page  (oliver)
  - add "remove" and "join" buttons to main page in appropriate cases (oliver)
  - static files
  - DNS entry

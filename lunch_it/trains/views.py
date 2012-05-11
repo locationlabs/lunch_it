@@ -102,13 +102,49 @@ def joinGroup(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
-   view = 'main_template.html'
-   return render(request, view, {})
+   group_id = request.POST['train_id']
+   train = Train.objects.get(id=group_id)
+   user = request.user
+
+   # Add the user the the group
+   train.passengers.add(user)
+   train.save()
+
+   return index(request)
 
 def leaveGroup(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
-   view = 'main_template.html'
-   return render(request, view, {})
+   group_id = request.POST['train_id']
+   train = Train.objects.get(id=group_id)
+   user = request.user
+
+   print "user is " , user
+
+   # Remove the user from the group
+   for u in train.passengers.all():
+      print "processing user " , u
+      if u == user:
+         train.passengers.remove(u)
+         return index(request)
+   
+   if train.captain == user:
+      if train.passengers.count() == 0:
+         # Nobody left on the train.
+         print "Empty train, deleting it"
+         train.delete()
+         return index(request)
+
+      # The captain has left, promote the first joiner to captain
+      print "Captain left"
+      newCap = train.passengers.all()[0]
+      print "New captain will be " , newCap
+      print "About to remove passenger 0. " , train.passengers.all()
+      train.passengers.remove(newCap)
+      print "Removed passenger, new passenger list is " , train.passengers.all()
+      train.captain = newCap
+      train.save()
+
+   return index(request)
 
