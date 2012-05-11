@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class User(models.Model):
+class UserInfo(models.Model):
    username = models.CharField(max_length=256)
    password = models.CharField(max_length=256)
    display_name = models.CharField(max_length=256)
@@ -36,11 +37,10 @@ class Restaurant(models.Model):
    def __unicode__(self):
       return self.name
 
-
 class Train(models.Model):
    departureTime = models.DateTimeField()
-   captain = models.ForeignKey('User', related_name='+')
-   passengers = models.ManyToManyField('User')
+   captain = models.ForeignKey(User, related_name='+')
+   passengers = models.ManyToManyField(User)
    destination = models.ForeignKey('Restaurant')
    notes = models.TextField()
 
