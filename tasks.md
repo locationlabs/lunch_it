@@ -9,6 +9,8 @@ Tasks:
  - make "suggested restaurants" work
  - catch case with a second train to the same place
  - first round QA
+ - different css for "captain" and "you" classes in participant list
+ - tweak main page template to add "you" class to your name
 
 Second Tier:
  - mobile-aware UI
