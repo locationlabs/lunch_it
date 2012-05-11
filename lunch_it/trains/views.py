@@ -40,8 +40,10 @@ def index(request):
    user = request.user
 
    # Stuff we need to get 
-   # all today's trains  TODO filter this by today's date
-   trains = list(Train.objects.all())
+   # all today's trains
+   trains = list(Train.objects.filter(departure_time__year = datetime.datetime.today().year,
+                                      departure_time__month = datetime.datetime.today().month,
+                                      departure_time__day = datetime.datetime.today().day))
 
    # Order the list of trains
    trains = helper.reorderTrains(trains, user)
