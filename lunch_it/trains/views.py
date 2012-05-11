@@ -102,7 +102,7 @@ def joinGroup(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
-   group_id = request.POST['group_id']
+   group_id = request.POST['train_id']
    train = Train.objects.get(id=group_id)
    user = request.user
 
@@ -116,9 +116,7 @@ def leaveGroup(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
-   view = 'main_template.html'
-
-   group_id = request.POST['group_id']
+   group_id = request.POST['train_id']
    train = Train.objects.get(id=group_id)
    user = request.user
 
