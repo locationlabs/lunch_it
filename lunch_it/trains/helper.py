@@ -13,7 +13,7 @@ def reorderTrains(trains, user):
 
    # Move the train you are on to the front
    for t in trains:
-      if user == t.captain or user in t.passengers.add():
+      if user == t.captain or user in t.passengers.all():
          retTrains.append(t)
          trains.remove(t)            
          break
