@@ -23,21 +23,25 @@
       </tr>
     </thead>
     <tbody>
+      {% if destination %}
       {% for row in destination %}
         <tr>
-          <td>{{row.time}}</td>
+          <td>{{row.departureTime}}</td>
 		  <td>{{row.transportation}}</td>
-          <td>{{row.place}}</td>
+          <td>{{row.destination}}</td>
           <td>
-            {% for person in row.people %}
-              <span class="label label-info">{{person}}</span>
+            {% if row.passengers %}
+            {% for person in row.passengers.all %}
+              <span class="label label-info">{{person.display_name}}</span>
             {% endfor %}
+            {% endif %}
           </td>
 		  <td>
 			{{row.notes}}
           </td>
         </tr>
-      {{% endfor %}}
+      {% endfor %}
+      {% endif %}
     </tbody>
   </table>
 </div>

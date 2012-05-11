@@ -1,19 +1,26 @@
 # Create your views here.
 
 from django.shortcuts import render
+from trains.models import User, Train, Restaurant
 
 def index(request):
-   view = 'main.html'
-   return render(view, {})
+
+   # Stuff we need to get 
+   # all today's trains  TODO filter this by today's date
+   trains = Train.objects.all()
+   # Suggested destinations
+   places = Restaurant.objects.all()
+   view = 'main_template.html'
+   return render(request, view, {'destination': trains})
 
 def createNewGroup(request):
    view = 'createGroup.html'
-   return render(view, {})
+   return render(request, view, {})
 
 def joinGroup(request):
-   view = 'main.html'
-   return render(view, {})
+   view = 'main_template.html'
+   return render(request, view, {})
 
 def leaveGroup(request):
-   view = 'main.html'
-   return render(view, {})
+   view = 'main_template.html'
+   return render(request, view, {})
