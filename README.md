@@ -16,6 +16,9 @@ That's to make mysql work.
 You may also need virtualenv
 sudo apt-get install python-virtualenv
 
+For the icons, you need the python imaging library
+sudo apt-get install python-imaging
+
 2) check out
 git clone git@github.com:locatinolabs/lunch_it.git
 cd lunch_it
