@@ -1,8 +1,9 @@
 Tasks:
- - add "remove" and "join" buttons to main page in appropriate cases
+ - add "remove" and "join" buttons to main page in appropriate cases (oliver)
  - make "remove" work (ryan)
  - make "join" work (ryan)
  - fix time on main page  (oliver)
+ - fix timezones (oliver)
  - make travel method work correctly (oliver)
  - deploy on EC2: needs update and troubleshooting
  - make "suggested restaurants" work
