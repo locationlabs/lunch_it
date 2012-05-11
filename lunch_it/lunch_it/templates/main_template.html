@@ -3,6 +3,12 @@
   <title>Lunch It!</title>
 <link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
 <link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    function preFillNewGroup(resturant) {
+    var newPlace = documentment.getElementById("newPlaceField");
+    newPlace.value = restuarant.value
+    };
+</script>
 </head>
 <body>
 	<div class="container">
@@ -85,7 +91,7 @@
   <div class"span12">
     <form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
       <h6>Start your own group</h6>
-      <input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
+      <input type="text" id="newPlaceField" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
              data-provide="typeahead" data-items="4"
              data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
 
@@ -107,7 +113,7 @@
       <div class="well">
         <h6>Today's Suggested Restaurants</h6>
         <ul class="nav nav-list">
-          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel </a></li>
+          <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20" onClick="preFillNewGroup(this);"> Liba Falafel </a></li>
           <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</a></li>
           <li><a href="#"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</a></li>
           <li><a href="#"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</a></li>
