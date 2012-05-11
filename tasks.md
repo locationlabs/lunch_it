@@ -4,6 +4,7 @@ Tasks:
  - Decide on first couple of pages
  - sketch out forms for them
  - Figure out how to do Djagno use reg without pws
+ - logo (Irene)
 
 Completed:
  - static files
@@ -11,3 +12,4 @@ Completed:
  - db setup
  - initial models
  - Put Django template tags in main_template.html
+ - initial restaurant list
