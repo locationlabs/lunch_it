@@ -56,6 +56,7 @@ Resetting the DB
 To Reset the DB and re-load the initial data:
 
 > python manage.py sqlclear trains | mysql -uroot -proot lunchit  
+> python manage.py sqlclear auth | mysql -uroot -proot lunchit  
 > python manage.py syncdb  
 > python initdata.py
 
