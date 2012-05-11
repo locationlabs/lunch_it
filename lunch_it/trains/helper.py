@@ -13,24 +13,22 @@ def reorderTrains(trains, user):
 
    # Move the train you are on to the front
    for t in trains:
-      for p in t.passengers.all():
-         if p == user:
-            retTrains.append(t)
-            trains.remove(t)            
-            break
+      if user == t.captain or user in t.passengers.add():
+         retTrains.append(t)
+         trains.remove(t)            
+         break
 
    # Now order the rest of the trains by suggested companions
    people = suggestCompanionUsers(user)
    for p in people:
       for t in trains:
-         for u in t.passengers.all():
-            if u == p:
-               retTrains.append(t)
-               trains.remove(t)
+         if p == t.captain or p in t.passengers.all():
+            retTrains.append(t)
+            trains.remove(t)
 
    # Add the remainder of the trains to the return list
    for t in trains:
-      retTrains.add(t)
+      retTrains.append(t)
 
    return retTrains
 

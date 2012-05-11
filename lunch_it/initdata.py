@@ -39,7 +39,7 @@ if __name__ == "__main__":
             latitude = lat, longitude = lon)
 
       restaurant.save()
-      time.sleep(1)
+      time.sleep(0.5)
 
    u = csv.reader(open('users.csv'))
    user_rows = []

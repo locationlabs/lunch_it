@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="join1">
-		<a href="#"><img src="/bootstrap/img/lunchit2.png" height="60"></a>
+		<a href="#"><img src="/static/lunchit2.png" height="60"></a>
 	</div>
 <div class="row">
 	<div class="span12">
@@ -30,12 +30,13 @@
       {% if destination %}
       {% for row in destination %}
         <tr>
-	  <td>{{row.departure_time.hour}}:{{row.departure_time.minute}}</td>
+	  <td>{{row.departure_time.time}}</td>
 	  <td>{{row.transport}}</td>
 	  <td>{{row.destination_display}}</td>
-          <td>
+	  <td>
+	    <span class="label label-info captain">{{ row.captain_info.display_name }}</span>
             {% if row.passengers %}
-            {% for person in row.passengers.all %}
+            {% for person in row.passengers_info %}
               <span class="label label-info">{{person.display_name}}</span>
             {% endfor %}
             {% endif %}

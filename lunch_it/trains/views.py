@@ -38,14 +38,13 @@ def index(request):
    trains = list(Train.objects.all())
 
    # Order the list of trains
-   #trains = helper.reorderTrains(trains, request.user)
+   trains = helper.reorderTrains(trains, request.user)
 
    # Suggested destinations
    places = Restaurant.objects.all()
 
    # user info for current user
-   #user_info = UserInfo.objects.get(username = request.user.username)
-   user_info = None
+   user_info = UserInfo.objects.get(username = request.user.username)
 
    view = 'main_template.html'
    return render(request, view, {'destination': trains, 'places' : places, 'user_info' : user_info })

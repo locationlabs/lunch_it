@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import trains.helper
+import trains.helper as helper
 
 # Create your models here.
 
@@ -42,14 +42,22 @@ class Train(models.Model):
    departure_time = models.DateTimeField()
    captain = models.ForeignKey(User, related_name='+')
    passengers = models.ManyToManyField(User)
-   destination = models.ForeignKey('Restaurant')
-   one_off_destination_name = models.CharField(max_length=256)
+   destination = models.ForeignKey('Restaurant', blank=True, null=True)
+   one_off_destination_name = models.CharField(max_length=256, blank=True, null=True)
    notes = models.TextField()
 
    def destination_display(self):
       if self.destination:
          return self.destination.name
       return self.one_off_destination_name
+
+   def captain_info(self):
+      if not self.captain:
+         return None
+      return UserInfo.objects.get(username = self.captain.username)
+
+   def passengers_info(self):
+      return [ UserInfo.objects.get(username = user.username) for user in self.passengers.all() ]
 
    def transport(self):
       if self.destination:
