@@ -40,8 +40,8 @@
             {% endfor %}
             {% endif %}
           </td>
-		  <td>
-			{{row.notes}}
+	  <td>
+		{{row.notes}}
           </td>
         </tr>
       {% endfor %}
@@ -51,13 +51,17 @@
 </div>
 </div>
 
-<form class="well form-inline">
+<form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
 <h6>Start your own group</h6>
-<input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" data-provide="typeahead" data-items="4" data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
+<input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
+       data-provide="typeahead" data-items="4"
+       data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
 
-<input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" data-provide="typeahead" data-items="8" data-source="[&quot;Cabucci's&quot;,&quot;Summer Summer Thai Eatery&quot;,&quot;Bucci's&quot;,&quot;Ruby's Cafe&quot;,&quot;E-22 Cafe&quot;,&quot;Townhouse&quot;,&quot;Emery Bay Public Market&quot;,&quot;Cafe Aquarius&quot;,&quot;Cocina Poblana&quot;,&quot;Trader Joe's&quot;,&quot;Farley's&quot;,&quot;Rudy's Can't Fail Cafe&quot;,&quot;Arizmendi Bakery &amp; Pizza&quot;,&quot;Berkeley Bowl West&quot;,&quot;Juan's Place&quot;,&quot;Wally's Cafe&quot;,&quot;K C Bar-B-Q&quot;,&quot;Berkeley Bowl (the first)&quot;,&quot;Bakesale Betty&quot;,&quot;Homeroom&quot;,&quot;Bakesale Betty&quot;,&quot;Cheeseboard Pizza&quot;,&quot;Asqew Grill&quot;,&quot;Buckhorn Grill&quot;,&quot;California Pizza Kitchen&quot;,&quot;Fuddruckers&quot;,&quot;Pasta Pomodoro&quot;,&quot;Rubio's Grill&quot;,&quot;Doyle Park Food Trucks&quot;,&quot;53rd and Hollis Food Trucks&quot;,&quot;64th and Hollis Food Trucks&quot;]">
+<input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place"
+       data-provide="typeahead" data-items="8"
+       data-source="[&quot;{{ places|join:'&quot;,&quot;'}}&quot;]">
 
-<input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes">
+<input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes" name="notes" >
 
   <button type="submit" class="btn btn-success">+ New Group</button>
 </form>

@@ -1,5 +1,4 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.shortcuts import render
 from trains.models import UserInfo, Train, Restaurant
 from django.contrib.auth import authenticate, login as auth_login
 import trains.helper as helper
@@ -17,13 +16,13 @@ def login(request):
             return render(request,'login.html', {'errors':["The data you entered is invalid"], 'form':form})
         else:
             username = form.data['username']
-            print username
+            #print username
             password = 'password'
             user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
-                print 'yup!'
+                #print 'yup!'
                 return HttpResponseRedirect('/')
             else:
                 return render(request,'login.html', {'errors':["Uh oh. Looks like your account has been disabled."],'form':form})
@@ -38,21 +37,18 @@ def index(request):
    # all today's trains  TODO filter this by today's date
    trains = list(Train.objects.all())
 
-   try:
-      # Order the list of trains
-      trains = helper.reorderTrains(trains, request.user)
-   except:
-      # Don't care.  Just use the list as is
-      print "Didn't order the list"
+   # Order the list of trains
+   #trains = helper.reorderTrains(trains, request.user)
 
    # Suggested destinations
    places = Restaurant.objects.all()
 
    # user info for current user
-   user_info = UserInfo.objects.get(username = request.user.username)
+   #user_info = UserInfo.objects.get(username = request.user.username)
+   user_info = None
 
    view = 'main_template.html'
-   return render(request, view, {'destination': trains, 'user_info' : user_info })
+   return render(request, view, {'destination': trains, 'places' : places, 'user_info' : user_info })
 
 def createNewGroup(request):
    if not request.user.is_authenticated():
