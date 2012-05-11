@@ -1,4 +1,20 @@
-<form action="/login/" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
+<html>
+<head> 
+  <title>Lunch It!</title>
+<link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="span8">
+<form class="well form-inline" action="/login/" method="post">{% csrf_token %}
+{{ form.as_p }}<span class="add-on">@locationlabs.com</span>
+<input class="btn btn-primary" type="submit" value="Submit" />
 </form>
+</div>
+
+<script src="/static/bootstrap/js/jquery.js"></script>
+<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+</body>
+</html>
