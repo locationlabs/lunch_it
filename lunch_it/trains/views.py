@@ -38,12 +38,19 @@ def index(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
+   user = request.user
+
    # Stuff we need to get 
    # all today's trains  TODO filter this by today's date
    trains = list(Train.objects.all())
 
    # Order the list of trains
-   trains = helper.reorderTrains(trains, request.user)
+   trains = helper.reorderTrains(trains, user)
+
+   if trains and (trains[0].captain == user or user in trains[0].passengers.all()):
+      your_train = trains[0]
+   else:
+      your_train = None
 
    # Suggested destinations
    places = Restaurant.objects.all()
@@ -52,7 +59,11 @@ def index(request):
    user_info = UserInfo.objects.get(username = request.user.username)
 
    view = 'main_template.html'
-   return render(request, view, {'destination': trains, 'places' : places, 'user_info' : user_info })
+   return render(request, view, {
+         'trains': trains,
+         'your_train' : your_train,
+         'places' : places,
+         'user_info' : user_info })
 
 def createNewGroup(request):
    if not request.user.is_authenticated():
@@ -93,13 +104,49 @@ def joinGroup(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
-   view = 'main_template.html'
-   return render(request, view, {})
+   group_id = request.POST['train_id']
+   train = Train.objects.get(id=group_id)
+   user = request.user
+
+   # Add the user the the group
+   train.passengers.add(user)
+   train.save()
+
+   return index(request)
 
 def leaveGroup(request):
    if not request.user.is_authenticated():
       return HttpResponseRedirect('/login/')
 
-   view = 'main_template.html'
-   return render(request, view, {})
+   group_id = request.POST['train_id']
+   train = Train.objects.get(id=group_id)
+   user = request.user
+
+   print "user is " , user
+
+   # Remove the user from the group
+   for u in train.passengers.all():
+      print "processing user " , u
+      if u == user:
+         train.passengers.remove(u)
+         return index(request)
+   
+   if train.captain == user:
+      if train.passengers.count() == 0:
+         # Nobody left on the train.
+         print "Empty train, deleting it"
+         train.delete()
+         return index(request)
+
+      # The captain has left, promote the first joiner to captain
+      print "Captain left"
+      newCap = train.passengers.all()[0]
+      print "New captain will be " , newCap
+      print "About to remove passenger 0. " , train.passengers.all()
+      train.passengers.remove(newCap)
+      print "Removed passenger, new passenger list is " , train.passengers.all()
+      train.captain = newCap
+      train.save()
+
+   return index(request)
 

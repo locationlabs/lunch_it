@@ -27,6 +27,11 @@ p {
 	background-color: #9c6;
 }
 
+.label-info.you {
+	font-size: 13px;
+	background-color: red;
+}
+
 .table th {
 	font-size: 20px;
 }

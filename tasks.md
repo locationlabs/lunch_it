@@ -1,24 +1,31 @@
 Tasks:
- - add "remove" and "join" buttons to main page in appropriate cases (oliver)
- - make "remove" work (ryan)
- - make "join" work (ryan)
- - fix time on main page  (oliver)
- - fix timezones (oliver)
- - make travel method work correctly (oliver)
- - deploy on EC2: needs update and troubleshooting
- - make "suggested restaurants" work
+ - fix timezones and make time entry work for 1: and 13: (jacob)
+ - deploy on EC2: needs update and troubleshooting (sam)
+   - http://ll.lunchit.com/
+   - root@ec2-107-20-16-45.compute-1.amazonaws.com
  - catch case with a second train to the same place
- - first round QA
+ - Set up a "staging" machine for QA (sam)
+ - first round QA (irene)
  - different css for "captain" and "you" classes in participant list
- - tweak main page template to add "you" class to your name
+ - figure out restaurant page
+ - make restaurants clickable / figure out a way to include restaurant data (jacob)
 
 Second Tier:
+ - clarify how suggested restaurants should work
+ - make "suggested restaurants" work
  - mobile-aware UI
  - invites popup on train creation
  - invited-but-not-on-board list and display of same
- - weighting function for users. (?lunch quotient?)
+ - user profile page
+ - weighting function for users. (?lunch quotient?) (ryan)
  
 Completed:
+ - tweak main page template to add "you" class to your name
+ - make "remove" work (ryan)
+ - make "join" work (ryan)
+ - make travel method work correctly (oliver)
+ - fix time on main page  (oliver)
+ - add "remove" and "join" buttons to main page in appropriate cases (oliver)
  - static files
  - DNS entry
  - db setup
