@@ -7,6 +7,20 @@
 </head>
 <body>
   <div class="container">
+    <div class="join1">
+      <div class="btn-group pull-right">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+	        <i class="icon-user"></i> {{user_info.display_name}}
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="/profile?u={{user_info.username}}">Profile</a></li>
+          <li><a href="/logout/">Sign Out</a></li>
+        </ul>
+		  </div>
+      <a href="/"><img src="/static/lunchit2.png" height="60"></a>
+    </div>
+
     <div class="row">
       <div class="span12">
         <h1>User profile for {{ user_info.display_name }}</h1>
@@ -40,9 +54,11 @@
           </tr>
           {% endfor %}
         </table>
-        
       </div>
     </div>
   </div>
+  <script src="/static/bootstrap/js/jquery.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
 </body>
 </html>

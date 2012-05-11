@@ -1,51 +1,53 @@
 <html>
 <head> 
   <title>Lunch It!</title>
-<link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
-<link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
-<script type="text/javascript">
+  <link href="/static/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="/static/bootstrap/css/jk.css" media="screen" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
     function preFillNewGroup(restaurant) {
-        var newPlace = document.getElementById("newPlaceField");
-        newPlace.value = $.trim(restaurant.innerText)
+      var newPlace = document.getElementById("newPlaceField");
+      newPlace.value = $.trim(restaurant.innerText)
     };
-</script>
+    function profile(username) {
+      document.location.href = "/profile?u=" + username;
+      return false;
+    }
+  </script>
 </head>
 <body>
-	<div class="container">
-		<div class="join1">
-		<div class="btn-group pull-right">
-		   <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-		      <i class="icon-user"></i> {{user_info.display_name}}
-		          <span class="caret"></span>
-		   </a>
-		   <ul class="dropdown-menu">
-		          <li><a href="/logout/">Sign Out</a></li>
-		   </ul>
-		</div>
-	</div>
-  <div class="join1">
-    <a href="#"><img src="/static/lunchit2.png" height="60"></a>
-  <div class="row">
-  </div>
-  <div class="row">
-    <div class="span12">
-      <div class="join1">
-        <h2>Where is everyone going to lunch today?</h2>
-      </div>
+  <div class="container">
+    <div class="join1">
+      <div class="btn-group pull-right">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+	        <i class="icon-user"></i> {{user_info.display_name}}
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="/profile?u={{user_info.username}}">Profile</a></li>
+          <li><a href="/logout/">Sign Out</a></li>
+        </ul>
+		  </div>
+      <a href="/"><img src="/static/lunchit2.png" height="60"></a>
     </div>
-    <div class="span12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Time</th>
-	    <th></th>
-            <th>Place</th>
-            <th>Who's Going?</th>
-	    <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div class="row">
+      <div class="span12">
+        <div class="join1">
+          <h2>Where is everyone going to lunch today?</h2>
+        </div>
+      </div>
+      <div class="span12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Time</th>
+              <th></th>
+              <th>Place</th>
+              <th>Who's Going?</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
           {% if trains %}
           {% for train in trains %}
             <tr>
@@ -53,72 +55,75 @@
                 {% if not your_train %}
                   <form action="/join/" method="POST">
                     {% csrf_token %}
-	            <input type="hidden" name="train_id" value="{{ train.id }}" />
+                    <input type="hidden" name="train_id" value="{{ train.id }}" />
                     <button type="submit" class="btn btn-small btn-primary">Join</button>
-	          </form>
-	        {% endif %}
+                  </form>
+                {% endif %}
                 {% if your_train and train == your_train %}
                   <form action="/leave/" method="POST">
                     {% csrf_token %}
-	            <input type="hidden" name="train_id" value="{{ train.id }}" />
+                    <input type="hidden" name="train_id" value="{{ train.id }}" />
                     <button type="submit" class="btn btn-small btn-inverse">Leave</button>
-	          </form>
-	        {% endif %}
-	      </td>
-	      <td>{{train.departure_time|time:"h:i"}}</td>
-	      <td><img src="/static/icon_transport_{{train.transport}}.png" width="20" height="20"/></td>
-	      <td>{{train.destination_display}}</td>
-	      <td>
-		      <span class="label label-info captain{% ifequal train.captain user %} you{% endifequal %}">{{ train.captain_info.display_name }}</span>
+                 </form>
+                {% endif %}
+              </td>
+              <td>{{train.departure_time|time:"h:i"}}</td>
+              <td><img src="/static/icon_transport_{{train.transport}}.png" width="20" height="20"/></td>
+              <td>{{train.destination_display}}</td>
+              <td>
+                <span class="label label-info captain{% ifequal train.captain user %} you{% endifequal %}"
+                      onclick="profile('{{train.captain.username}}')">{{ train.captain_info.display_name }}</span>
                 {% if train.passengers %}
                 {% for person in train.passengers_info %}
-                  <span class="label label-info{% ifequal person.username user.username %} you{% endifequal %}">{{person.display_name}}</span>
+                <span class="label label-info{% ifequal person.username user.username %} you{% endifequal %}"
+                      onclick="profile('{{person.username}}')">{{person.display_name}}</span>
                 {% endfor %}
                 {% endif %}
               </td>
-	      <td>
+              <td>
                 {{train.notes}}
               </td>
             </tr>
           {% endfor %}
           {% endif %}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+    <div class="row">
+      {% if not your_train %}
+      <div class"span12">
+        <form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
+          <h6>Start your own group</h6>
+          <input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
+                 data-provide="typeahead" data-items="4"
+                 data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
 
-  {% if not your_train %}
-  <div class"span12">
-    <form class="well form-inline" action="newGroup/" method="POST">{% csrf_token %}
-      <h6>Start your own group</h6>
-      <input type="text" class="span1" style="margin: 0 auto;" placeholder="Time" name="time"
-             data-provide="typeahead" data-items="4"
-             data-source="[&quot;11:30&quot;,&quot;11:45&quot;,&quot;12:00&quot;,&quot;12:15&quot;,&quot;12:30&quot;,&quot;12:45&quot;,&quot;1:00&quot;,&quot;1:15&quot;,&quot;1:30&quot;]">
+          <input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place" id="newPlaceField"
+                 data-provide="typeahead" data-items="8"
+                 data-source="[&quot;{{ places|join:'&quot;,&quot;'}}&quot;]">
 
-      <input type="text" class="span3" style="margin: 0 auto;" placeholder="Place" name="place" id="newPlaceField"
-             data-provide="typeahead" data-items="8"
-             data-source="[&quot;{{ places|join:'&quot;,&quot;'}}&quot;]">
+          <input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes" name="notes" >
 
-      <input type="text" class="span4" style="margin: 0 auto;" placeholder="Notes" name="notes" >
+          <button type="submit" class="btn btn-success">+ New Group</button>
+        </form>
+      </div>
+      {% endif %}
+    </div> <!-- /row -->
 
-      <button type="submit" class="btn btn-success">+ New Group</button>
-    </form>
-  </div>
-  {% endif %}
-</div>
-
-<div class="join1">
-  <div class="row">
-    <div class="span4">
-      <div class="well">
-        <h6>Today's Suggested Restaurants</h6>
-        <ul class="nav nav-list">
-          <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel</li>
-          <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</li>
-          <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</li>
-          <li onClick="preFillNewGroup(this);"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</li>
-       </ul>
-     </div>
+    <div class="join1">
+      <div class="row">
+        <div class="span4">
+          <div class="well">
+            <h6>Today's Suggested Restaurants</h6>
+            <ul class="nav nav-list">
+              <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Liba Falafel</li>
+              <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Subway</li>
+              <li onClick="preFillNewGroup(this);"><img src="http://cdn1.iconfinder.com/data/icons/iconsweets2/40/user_walk.png" width="20" height="20"> Rotten City Pizza</li>
+              <li onClick="preFillNewGroup(this);"><img src="http://www.johncoates-schoolofmotoring.co.uk/Icons/night_drv_icon.jpg" width="20" height="20"> BBQ Place</li>
+            </ul>
+          </div>
+        </div>
 
      <!-- insert this once we have the recommendation engine up
 	<ul class="nav nav-list">
@@ -128,12 +133,9 @@
 	</ul>
      -->
 
+      </div>
     </div>
   </div>
-</div>
-</div>
-</div>
-</div>
 <script src="/static/bootstrap/js/jquery.js"></script>
 <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
 <script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
