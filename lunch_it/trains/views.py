@@ -37,8 +37,12 @@ def index(request):
    # all today's trains  TODO filter this by today's date
    trains = list(Train.objects.all())
 
-   # Order the list of trains
-   trains = helper.reorderTrains(trains, request.user)
+   try:
+      # Order the list of trains
+      trains = helper.reorderTrains(trains, request.user)
+   except:
+      # Don't care.  Just use the list as is
+      print "Didn't order the list"
 
    # Suggested destinations
    places = Restaurant.objects.all()
