@@ -1,9 +1,10 @@
 lunch_it
 ========
 
-Lunch train organization mobile web application
+Lunch train organization mobile web application. This project was created in an 24 hour period as part of Location Labs Hack Day 2012.
 
-Setup instructions:
+Setup instructions
+------------------
 
 1) get virtualenv. On Ubuntu:
 > sudo apt-get install python-setuptools
